@@ -41,9 +41,52 @@ class UserController {
       });
     } catch (err) {
       console.log(err.message);
+
+      if (
+        err.message === "User not found" ||
+        err.message === "Invalid password"
+      ) {
+        return res.status(401).json({
+          status: 401,
+          message: "Username atau password salah",
+          data: null,
+        });
+      }
       return res.status(400).json({
         status: 400,
         message: "Parameter email tidak sesuai format",
+        data: null,
+      });
+    }
+  }
+
+  async findUserById(req, res, next) {
+    try {
+      const userId = req.user.id;
+      const user = await this.userService.findById(userId);
+
+      if (!user) {
+        return res.status(404).json({
+          status: 404,
+          message: "User not found",
+          data: null,
+        });
+      }
+
+      return res.status(200).json({
+        status: 200,
+        message: "Sukses",
+        data: {
+          email: user.email,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          profile_image: user.profile_image,
+        },
+      });
+    } catch {
+      return res.status(401).json({
+        status: 401,
+        message: "Token tidak tidak valid atau kadaluwarsa",
         data: null,
       });
     }

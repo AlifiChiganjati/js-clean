@@ -10,7 +10,10 @@ class UserService {
   }
 
   async createUser(payload) {
-    const pass = await bcrypt.hash(payload.password, 8);
+    if (payload.password.length < 8) {
+      throw new Error("password minimal 8 karakter");
+    }
+    const pass = await bcrypt.hash(payload.password, 10);
     const newUser = {
       id: payload.id,
       email: payload.email,
@@ -42,6 +45,11 @@ class UserService {
     );
 
     return { token, user };
+  }
+
+  async findById(id) {
+    const user = this.userRepository.findById(id);
+    return user;
   }
 }
 

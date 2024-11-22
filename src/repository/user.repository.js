@@ -22,21 +22,22 @@ class UserRepository {
     return result.rows[0];
   }
 
-  async getAll() {
-    const result = await pool.query(
-      "SELECT email,first_name,last_name,profile_image FROM users",
-    );
-    return result;
-  }
-
   async findByEmail(email) {
     const query = `
-SELECT id, email, first_name, last_name, password 
+SELECT id, email, first_name, last_name, password
 FROM users 
 WHERE email = $1
 `;
     const result = await this.pool.query(query, [email]);
     return result.rows[0];
+  }
+
+  async findById(id) {
+    const query = `
+SELECT id,email,first_name,last_name,profile_image FROM users WHERE id=$1
+`;
+    const result = await this.pool.query(query, [id]);
+    return result;
   }
 }
 
