@@ -21,4 +21,10 @@ router.get(
   async (req, res, next) => await userController.findUserById(req, res, next),
 );
 
+router.put(
+  "/profile/update",
+  auth,
+  async (req, res, next) => await userController.updateUser(req, res, next),
+);
+
 export default router;

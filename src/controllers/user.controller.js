@@ -1,4 +1,3 @@
-import bcrypt from "bcryptjs/dist/bcrypt.js";
 import UserService from "../services/user.service.js";
 
 class UserController {
@@ -82,6 +81,32 @@ class UserController {
       return res.status(401).json({
         status: 401,
         message: "Token tidak tidak valid atau kadaluwarsa",
+        data: null,
+      });
+    }
+  }
+  async updateUser(req, res, next) {
+    try {
+      const userId = req.user.id;
+      console.log(userId);
+      const { first_name, last_name } = req.body;
+
+      const updatedUser = await this.userService.updateUser(userId, {
+        first_name,
+        last_name,
+      });
+      console.log("update user", updatedUser);
+      const user = await this.userService.findById(userId);
+      return res.status(200).json({
+        status: 200,
+        message: "User updated successfully",
+        data: user,
+      });
+    } catch (err) {
+      console.log(err.message);
+      return res.status(500).json({
+        status: 500,
+        message: err.message,
         data: null,
       });
     }

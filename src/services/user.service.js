@@ -51,6 +51,19 @@ class UserService {
     const user = this.userRepository.findById(id);
     return user;
   }
+
+  async updateUser(id, { first_name, last_name }) {
+    const user = await this.userRepository.findById(id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const updatedUser = await this.userRepository.update(id, {
+      first_name,
+      last_name,
+    });
+    return updatedUser;
+  }
 }
 
 export default UserService;

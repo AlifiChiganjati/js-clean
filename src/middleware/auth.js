@@ -10,7 +10,7 @@ export const auth = async (req, res, next) => {
     if (!token) {
       return res.status(401).json({
         status: 401,
-        message: "Authentication failed, no token provided",
+        message: "Token tidak tidak valid atau kadaluwarsa",
         data: null,
       });
     }
