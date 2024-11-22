@@ -1,0 +1,43 @@
+import pool from "../config/config.js";
+
+class UserRepository {
+  constructor() {
+    this.pool = pool;
+  }
+  async create({ email, first_name, last_name, password }) {
+    const query = `
+    INSERT INTO "users" 
+      (email, first_name, last_name, password) 
+    VALUES 
+      ($1,$2,$3,$4)
+    RETURNING id, email, first_name, last_name, password
+`;
+    const result = await this.pool.query(query, [
+      email,
+      first_name,
+      last_name,
+      password,
+    ]);
+    // console.log(result);
+    return result.rows[0];
+  }
+
+  async getAll() {
+    const result = await pool.query(
+      "SELECT email,first_name,last_name,profile_image FROM users",
+    );
+    return result;
+  }
+
+  async findByEmail(email) {
+    const query = `
+SELECT id, email, first_name, last_name, password 
+FROM users 
+WHERE email = $1
+`;
+    const result = await this.pool.query(query, [email]);
+    return result.rows[0];
+  }
+}
+
+export default UserRepository;

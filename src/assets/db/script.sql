@@ -1,0 +1,11 @@
+CREATE DATABASE db_mbanking;
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+CREATE TABLE IF NOT EXISTS "users"(
+id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+email VARCHAR(30) NOT NULL UNIQUE,
+first_name VARCHAR(30) NOT NULL, 
+last_name VARCHAR(30) NOT NULL,
+password VARCHAR(100) NOT NULL,
+profile_image VARCHAR(255)
+)
