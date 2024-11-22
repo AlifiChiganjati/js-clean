@@ -37,7 +37,8 @@ WHERE email = $1
 SELECT id,email,first_name,last_name,profile_image FROM users WHERE id=$1
 `;
     const result = await this.pool.query(query, [id]);
-    return result;
+    console.log("result user repository", result.rows);
+    return result.rows[0];
   }
 }
 

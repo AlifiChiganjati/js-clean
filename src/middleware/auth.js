@@ -21,12 +21,21 @@ export const auth = async (req, res, next) => {
     // const findUser = await new UserRepository().findByEmail({
     // email: decoded.email,
     // });
-    const findUser = await new UserRepository().findById({ id: decoded.id });
-    console("ini finduser in auth", findUser);
+    const findUser = await new UserRepository().findById(decoded.id);
+    console.log("ini finduser in auth", findUser);
     if (!findUser) throw Error("please authenticate");
 
-    req.user = findUser;
-    req.token = token;
+    if (findUser) {
+      req.user = {
+        id: findUser.id,
+        email: findUser.email,
+        first_name: findUser.first_name,
+        last_name: findUser.last_name,
+        profile_image: findUser.profile_image,
+      };
+    }
+    // req.user = findUser;
+    // req.token = token;
     next();
   } catch (err) {
     console.log(err);

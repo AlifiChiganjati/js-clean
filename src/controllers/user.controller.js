@@ -33,7 +33,7 @@ class UserController {
       const { email, password } = req.body;
 
       const { token, user } = await this.userService.login({ email, password });
-
+      console.log(user);
       return res.status(200).json({
         status: 200,
         message: "Login Sukses",
@@ -41,7 +41,6 @@ class UserController {
       });
     } catch (err) {
       console.log(err.message);
-
       if (
         err.message === "User not found" ||
         err.message === "Invalid password"
@@ -63,6 +62,7 @@ class UserController {
   async findUserById(req, res, next) {
     try {
       const userId = req.user.id;
+      console.log(req.user);
       const user = await this.userService.findById(userId);
 
       if (!user) {
@@ -72,16 +72,11 @@ class UserController {
           data: null,
         });
       }
-
+      console.log(req.user);
       return res.status(200).json({
         status: 200,
         message: "Sukses",
-        data: {
-          email: user.email,
-          first_name: user.first_name,
-          last_name: user.last_name,
-          profile_image: user.profile_image,
-        },
+        data: user,
       });
     } catch {
       return res.status(401).json({
