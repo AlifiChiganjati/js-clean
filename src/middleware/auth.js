@@ -39,6 +39,10 @@ export const auth = async (req, res, next) => {
     next();
   } catch (err) {
     console.log(err);
-    res.status(401).send({ message: "please authenticate" });
+    return res.status(401).json({
+      status: 401,
+      message: "Token tidak tidak valid atau kadaluwarsa",
+      data: null,
+    });
   }
 };
