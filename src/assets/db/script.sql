@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS "banner"(
 
 CREATE TABLE IF NOT EXISTS "layanan"(
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES users(id),
   service_code VARCHAR(255),
   service_name VARCHAR(255),
   service_icon VARCHAR(255),
