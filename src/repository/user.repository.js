@@ -18,7 +18,6 @@ class UserRepository {
       last_name,
       password,
     ]);
-    // console.log(result);
     return result.rows[0];
   }
 
@@ -37,7 +36,6 @@ WHERE email = $1
 SELECT id,email,first_name,last_name,profile_image FROM users WHERE id=$1
 `;
     const result = await this.pool.query(query, [id]);
-    console.log("result user repository", result.rows);
     return result.rows[0];
   }
   async update(id, { first_name, last_name }) {

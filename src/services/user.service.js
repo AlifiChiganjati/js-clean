@@ -22,7 +22,6 @@ class UserService {
       password: pass,
     };
     const createUser = await this.userRepository.create(newUser);
-    console.log(createUser);
     return createUser;
   }
 

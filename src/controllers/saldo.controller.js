@@ -10,11 +10,10 @@ class SaldoController {
       const userId = req.user.id;
       console.log(userId);
       let saldo = await this.saldoService.getBalance(userId);
-      console.log("ini saldo controller", saldo);
       if (!saldo) {
         return res.status(404).json({
           status: 404,
-          message: "Balance not found for the user",
+          message: "Saldo is not found",
           data: null,
         });
       }
@@ -65,8 +64,6 @@ class SaldoController {
         });
       }
     } catch (err) {
-      console.log(err);
-
       return res.status(500).json({
         status: 500,
         message: err.message,

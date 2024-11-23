@@ -15,7 +15,6 @@ class TransactionRepository {
       `;
       const resultService = await client.query(queryService, [serviceCode]);
       const service = resultService.rows[0];
-      console.log(service);
       if (!service) {
         throw new Error("Layanan tidak ada");
       }
@@ -25,13 +24,11 @@ class TransactionRepository {
       `;
       const resultBalance = await client.query(queryBalance, [userId]);
       const currentBalance = resultBalance.rows[0]?.saldo;
-      console.log(currentBalance);
       if (!currentBalance || currentBalance < service.service_tarif) {
         throw new Error("Saldo tidak cukup");
       }
 
       const newBalance = currentBalance - service.service_tarif;
-      console.log(newBalance);
       const queryUpdateBalance = `
         UPDATE users 
         SET saldo = $1 

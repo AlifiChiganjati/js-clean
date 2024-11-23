@@ -18,7 +18,6 @@ const ensureDirectoryExists = async () => {
       await fsPromises.mkdir(directoryPath, { recursive: true });
     }
   } catch (error) {
-    console.error("Error creating directories: ", error);
     throw error;
   }
 };
@@ -38,7 +37,7 @@ const upload = multer({
     },
   }),
   fileFilter: (req, file, cb) => {
-    const allowedFileTypes = ["jpg", "jpeg", "png"];
+    const allowedFileTypes = ["jpeg", "png"];
     const ext = path.extname(file.originalname).slice(1).toLowerCase();
     if (allowedFileTypes.includes(ext)) {
       cb(null, true);

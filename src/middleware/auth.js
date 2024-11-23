@@ -17,12 +17,7 @@ const auth = async (req, res, next) => {
 
     const decoded = jwt.decode(token, process.env.JWT_SECRET);
 
-    // console.log(decoded);
-    // const findUser = await new UserRepository().findByEmail({
-    // email: decoded.email,
-    // });
     const findUser = await new UserRepository().findById(decoded.id);
-    // console.log("ini finduser in auth", findUser);
     if (!findUser) throw Error("please authenticate");
 
     if (findUser) {
@@ -34,11 +29,8 @@ const auth = async (req, res, next) => {
         profile_image: findUser.profile_image,
       };
     }
-    // req.user = findUser;
-    // req.token = token;
     next();
   } catch (err) {
-    console.log(err);
     return res.status(401).json({
       status: 401,
       message: "Token tidak tidak valid atau kadaluwarsa",

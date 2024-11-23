@@ -15,9 +15,9 @@ class BannerController {
       });
     } catch (err) {
       console.log(err);
-      return res.status(401).json({
-        status: 401,
-        message: "Token tidak tidak valid atau kadaluwarsa",
+      return res.status(500).json({
+        status: 500,
+        message: "Internal server error",
         data: null,
       });
     }
