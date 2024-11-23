@@ -49,6 +49,16 @@ SELECT id,email,first_name,last_name,profile_image FROM users WHERE id=$1
     const result = await this.pool.query(query, [first_name, last_name, id]);
     return result.rows[0];
   }
+
+  async updateImg(id, { profile_image }) {
+    const query = `
+UPDATE users 
+SET profile_image = $1 
+WHERE id = $2
+`;
+    const result = await this.pool.query(query, [profile_image, id]);
+    return result.rows[0];
+  }
 }
 
 export default UserRepository;

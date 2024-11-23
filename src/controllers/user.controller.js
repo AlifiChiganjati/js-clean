@@ -85,7 +85,7 @@ class UserController {
       });
     }
   }
-  async updateUser(req, res, next) {
+  async updateProfile(req, res, next) {
     try {
       const userId = req.user.id;
       console.log(userId);
@@ -99,7 +99,7 @@ class UserController {
       const user = await this.userService.findById(userId);
       return res.status(200).json({
         status: 200,
-        message: "User updated successfully",
+        message: "Update Pofile berhasil",
         data: user,
       });
     } catch (err) {
@@ -107,6 +107,32 @@ class UserController {
       return res.status(500).json({
         status: 500,
         message: err.message,
+        data: null,
+      });
+    }
+  }
+
+  async uploadProfileImage(req, res, next) {
+    try {
+      const userId = req.user.id;
+      const file = req.file;
+
+      const updatedUser = await this.userService.updateProfileImage(
+        userId,
+        file,
+      );
+      const user = await this.userService.findById(userId);
+
+      return res.status(200).json({
+        status: 200,
+        message: "Update Profile Image berhasil",
+        data: updatedUser,
+      });
+    } catch (err) {
+      console.log(err.message);
+      return res.status(400).json({
+        status: 400,
+        message: "Fortmat Image tidak sesuai",
         data: null,
       });
     }

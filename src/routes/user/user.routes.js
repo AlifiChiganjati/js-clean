@@ -1,6 +1,7 @@
 import express from "express";
 import UserController from "../../controllers/user.controller.js";
-import { auth } from "../../middleware/auth.js";
+import auth from "../../middleware/auth.js";
+import upload from "../../middleware/uploadImage.js";
 
 const router = express.Router();
 const userController = new UserController();
@@ -24,7 +25,15 @@ router.get(
 router.put(
   "/profile/update",
   auth,
-  async (req, res, next) => await userController.updateUser(req, res, next),
+  async (req, res, next) => await userController.updateProfile(req, res, next),
+);
+
+router.put(
+  "/profile/image",
+  auth,
+  upload,
+  async (req, res, next) =>
+    await userController.uploadProfileImage(req, res, next),
 );
 
 export default router;

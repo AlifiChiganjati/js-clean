@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import UserRepository from "../repository/user.repository.js";
 
 dotenv.config();
-export const auth = async (req, res, next) => {
+const auth = async (req, res, next) => {
   try {
     const token = req.header("Authorization").replace("Bearer ", "");
 
@@ -46,3 +46,5 @@ export const auth = async (req, res, next) => {
     });
   }
 };
+
+export default auth;

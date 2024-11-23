@@ -64,6 +64,19 @@ class UserService {
     });
     return updatedUser;
   }
+
+  async updateProfileImage(id, file) {
+    if (!file) {
+      throw new Error("no file uploaded");
+    }
+
+    const imageUrl = `/uploads/${file.filename}`;
+
+    const updateUser = await this.userRepository.updateImg(id, {
+      profile_image: imageUrl,
+    });
+    return updateUser;
+  }
 }
 
 export default UserService;
