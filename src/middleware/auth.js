@@ -17,12 +17,12 @@ const auth = async (req, res, next) => {
 
     const decoded = jwt.decode(token, process.env.JWT_SECRET);
 
-    console.log(decoded);
+    // console.log(decoded);
     // const findUser = await new UserRepository().findByEmail({
     // email: decoded.email,
     // });
     const findUser = await new UserRepository().findById(decoded.id);
-    console.log("ini finduser in auth", findUser);
+    // console.log("ini finduser in auth", findUser);
     if (!findUser) throw Error("please authenticate");
 
     if (findUser) {

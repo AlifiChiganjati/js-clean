@@ -26,7 +26,11 @@ CREATE TABLE IF NOT EXISTS "layanan"(
   service_tarif DECIMAL(10,2)
 );
 
-
+CREATE TABLE IF NOT EXISTS "saldo"(
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES users(id),
+  balance DECIMAL(10,2) DEFAULT 0
+);
 
 INSERT INTO "banner" 
   (banner_name,banner_image,description)
