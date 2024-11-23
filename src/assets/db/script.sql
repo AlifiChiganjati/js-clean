@@ -1,4 +1,4 @@
-CREATE DATABASE db_mbanking;
+CREATE DATABASE db_sms_ppob;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE IF NOT EXISTS "users"(
