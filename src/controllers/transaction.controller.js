@@ -32,7 +32,7 @@ class TransactionController {
       );
 
       return res.status(200).json({
-        status: 0,
+        status: 200,
         message: "Transaksi berhasil",
         data: {
           invoice_number: transaction.invoice_number,

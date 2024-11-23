@@ -21,21 +21,21 @@ class TransactionRepository {
       }
 
       const queryBalance = `
-        SELECT balance FROM saldo WHERE user_id=$1;
+        SELECT saldo FROM users WHERE id=$1;
       `;
       const resultBalance = await client.query(queryBalance, [userId]);
-      const currentBalance = resultBalance.rows[0]?.balance;
+      const currentBalance = resultBalance.rows[0]?.saldo;
       console.log(currentBalance);
-      if (!currentBalance || currentBalance > service.service_tarif) {
+      if (!currentBalance || currentBalance < service.service_tarif) {
         throw new Error("Saldo tidak cukup");
       }
 
       const newBalance = currentBalance - service.service_tarif;
       console.log(newBalance);
       const queryUpdateBalance = `
-        UPDATE saldo 
-        SET balance = $1 
-        WHERE user_id = $2 
+        UPDATE users 
+        SET saldo = $1 
+        WHERE id = $2 
         RETURNING *;
       `;
       await client.query(queryUpdateBalance, [newBalance, userId]);
@@ -76,11 +76,10 @@ class TransactionRepository {
 
   async getByUserId(id, limit, offset) {
     const query = `
-SELECT  u.id, u.email, s.balance,l.service_code,l.service_name,l.service_tarif, t.invoice_number,t.total_amount,t.created_on,t.transaction_type 
+SELECT  u.id, u.email, u.saldo,l.service_code,l.service_name,l.service_tarif, t.invoice_number,t.total_amount,t.created_on,t.transaction_type 
 FROM users AS u 
-INNER JOIN saldo AS s ON u.id=s.user_id 
-LEFT JOIN layanan AS l ON u.id=l.user_id
 LEFT JOIN transaction t ON u.id=t.user_id
+LEFT JOIN layanan AS l ON t.layanan_id=l.id
 WHERE u.id=$1
 ORDER BY 
 t.user_id DESC 
