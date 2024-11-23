@@ -7,9 +7,9 @@ class UserRepository {
   async create({ email, first_name, last_name, password }) {
     const query = `
     INSERT INTO "users" 
-      (email, first_name, last_name, password) 
+      (email, first_name, last_name, password, saldo) 
     VALUES 
-      ($1,$2,$3,$4)
+      ($1,$2,$3,$4, 0)
     RETURNING id, email, first_name, last_name, password
 `;
     const result = await this.pool.query(query, [
