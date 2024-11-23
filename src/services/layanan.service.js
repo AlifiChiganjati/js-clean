@@ -9,5 +9,9 @@ class LayananService {
     const result = await this.layananRepository.getALl();
     return result;
   }
+  async findByCode(code) {
+    const result = await this.layananRepository.getByCode(code);
+    return result;
+  }
 }
 export default LayananService;

@@ -3,10 +3,10 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE IF NOT EXISTS "users"(
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  email VARCHAR(30) NOT NULL UNIQUE,
-  first_name VARCHAR(30) NOT NULL, 
-  last_name VARCHAR(30) NOT NULL,
-  password VARCHAR(100) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  first_name VARCHAR(255) NOT NULL, 
+  last_name VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
   profile_image VARCHAR(255)
 );
 
@@ -31,6 +31,16 @@ CREATE TABLE IF NOT EXISTS "saldo"(
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID REFERENCES users(id),
   balance DECIMAL(10,2) DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS "transaction"(
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES users(id),
+  layanan_id UUID REFERENCES layanan(id),
+  transaction_type VARCHAR(255) NOT NULL,
+  invoice_number VARCHAR(255) NOT NULL,
+  total_amount DECIMAL(10,2) NOT NULL,
+  created_on TIMESTAMP
 );
 
 INSERT INTO "banner" 

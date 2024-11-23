@@ -7,7 +7,6 @@ class UserController {
   async register(req, res, next) {
     try {
       const { email, first_name, last_name, password } = req.body;
-      // const password = await bcrypt.hash(req.body.password, 8);
       // console.log(password);
       const payload = { email, first_name, last_name, password };
       await this.userService.createUser(payload);
@@ -77,10 +76,10 @@ class UserController {
         message: "Sukses",
         data: user,
       });
-    } catch {
-      return res.status(401).json({
-        status: 401,
-        message: "Token tidak tidak valid atau kadaluwarsa",
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        message: "Internal server error",
         data: null,
       });
     }
