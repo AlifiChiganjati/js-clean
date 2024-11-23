@@ -13,7 +13,7 @@ class SaldoService {
   async updateBalance(id, amount) {
     let saldo = await this.saldoRepository.get(id);
     if (amount <= 0) {
-      throw new Error("Amount must be greater than 0.");
+      throw new Error("saldo yang dimasukan harus leboh dari 0");
     }
     saldo.balance += parseFloat(amount);
     saldo = await this.saldoRepository.update(id, saldo.balance);
@@ -22,7 +22,7 @@ class SaldoService {
 
   async topUp(id, amount) {
     if (isNaN(amount) || amount <= 0) {
-      throw new Error("Amount must be a positive number greater than 0");
+      throw new Error("saldo harus lebih dari 0");
     }
     await this.saldoRepository.get(id);
 
