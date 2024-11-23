@@ -17,6 +17,15 @@ class TransactionService {
 
     return transaction;
   }
+
+  async getByUserId(id, limit = 3, offset = 0) {
+    const transactions = await this.transactionRepository.getByUserId(
+      id,
+      limit,
+      offset,
+    );
+    return transactions;
+  }
 }
 
 export default TransactionService;

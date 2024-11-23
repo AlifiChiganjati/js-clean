@@ -30,8 +30,7 @@ class TransactionController {
         userId,
         service_code,
       );
-      parseInt(transaction.total_amount);
-      console.log(transaction);
+
       return res.status(200).json({
         status: 0,
         message: "Transaksi berhasil",
@@ -49,6 +48,42 @@ class TransactionController {
       return res.status(500).json({
         status: 500,
         message: err.message,
+        data: null,
+      });
+    }
+  }
+
+  async getHistory(req, res, next) {
+    try {
+      const userId = req.user.id;
+
+      const limit = parseInt(req.query.limit) || 3;
+      const offset = parseInt(req.query.offset) || 0;
+
+      const transactions = await this.transactionService.getByUserId(
+        userId,
+        limit,
+        offset,
+      );
+      console.log(transactions);
+      const responseData = transactions.map((transaction) => ({
+        invoice_number: transaction.invoice_number,
+        transaction_type: transaction.transaction_type,
+        description: transaction.service_name,
+        total_amount: parseInt(transaction.total_amount),
+        created_on: transaction.created_on,
+      }));
+
+      return res.status(200).json({
+        status: 200,
+        message: "Get History Berhasil",
+        data: responseData,
+      });
+    } catch (err) {
+      console.error(err.message);
+      return res.status(500).json({
+        status: 500,
+        message: "Internal server error",
         data: null,
       });
     }

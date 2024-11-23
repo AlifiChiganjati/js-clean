@@ -73,5 +73,21 @@ class TransactionRepository {
       client.release();
     }
   }
+
+  async getByUserId(id, limit, offset) {
+    const query = `
+SELECT  u.id, u.email, s.balance,l.service_code,l.service_name,l.service_tarif, t.invoice_number,t.total_amount,t.created_on,t.transaction_type 
+FROM users AS u 
+INNER JOIN saldo AS s ON u.id=s.user_id 
+LEFT JOIN layanan AS l ON u.id=l.user_id
+LEFT JOIN transaction t ON u.id=t.user_id
+WHERE u.id=$1
+ORDER BY 
+t.user_id DESC 
+LIMIT $2 OFFSET $3;
+`;
+    const result = await this.pool.query(query, [id, limit, offset]);
+    return result.rows;
+  }
 }
 export default TransactionRepository;

@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS "users"(
   first_name VARCHAR(255) NOT NULL, 
   last_name VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
-  profile_image VARCHAR(255)
+  profile_image VARCHAR(255),
+  saldo DECIMAL(10,2) DEFAULT 0
 );
 
 
@@ -20,17 +21,10 @@ CREATE TABLE IF NOT EXISTS "banner"(
 
 CREATE TABLE IF NOT EXISTS "layanan"(
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  user_id UUID REFERENCES users(id),
   service_code VARCHAR(255),
   service_name VARCHAR(255),
   service_icon VARCHAR(255),
   service_tarif DECIMAL(10,2)
-);
-
-CREATE TABLE IF NOT EXISTS "saldo"(
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  user_id UUID REFERENCES users(id),
-  balance DECIMAL(10,2) DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS "transaction"(

@@ -11,4 +11,11 @@ router.post(
     await transactionController.processPayment(req, res, next),
 );
 
+router.get(
+  "/transaction/history",
+  auth,
+  async (req, res, next) =>
+    await transactionController.getHistory(req, res, next),
+);
+
 export default router;

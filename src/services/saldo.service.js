@@ -31,6 +31,11 @@ class SaldoService {
     if (isNaN(amount) || amount <= 0) {
       throw new Error("Amount must be a positive number greater than 0");
     }
+    let saldo = await this.saldoRepository.get(id);
+
+    if (!saldo) {
+      saldo = await this.saldoRepository.create(id);
+    }
 
     const updatedSaldo = await this.saldoRepository.topUp(id, amount);
     return updatedSaldo;
