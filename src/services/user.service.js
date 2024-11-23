@@ -69,8 +69,9 @@ class UserService {
     if (!file) {
       throw new Error("no file uploaded");
     }
-
-    const imageUrl = `/uploads/${file.filename}`;
+    const baseUrl =
+      process.env.BASE_URL || `http://localhost:${process.env.PORT}`;
+    const imageUrl = `${baseUrl}/${file.filename}`;
 
     const updateUser = await this.userRepository.updateImg(id, {
       profile_image: imageUrl,

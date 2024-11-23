@@ -34,7 +34,7 @@ const upload = multer({
       cb(null, directoryPath);
     },
     filename: (req, file, cb) => {
-      cb(null, Date.now() + "-" + file.originalname);
+      cb(null, file.originalname);
     },
   }),
   fileFilter: (req, file, cb) => {
