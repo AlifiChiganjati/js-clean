@@ -1,5 +1,4 @@
 import SaldoService from "../services/saldo.service.js";
-import UserService from "../services/user.service.js";
 
 class SaldoController {
   constructor() {
@@ -10,7 +9,8 @@ class SaldoController {
     try {
       const userId = req.user.id;
       console.log(userId);
-      const saldo = await this.saldoService.getBalance(userId);
+      let saldo = await this.saldoService.getBalance(userId);
+      console.log("ini saldo controller", saldo);
       if (!saldo) {
         return res.status(404).json({
           status: 404,
@@ -19,13 +19,11 @@ class SaldoController {
         });
       }
 
-      console.log(saldo);
-      const balance = parseInt(saldo.balance);
       return res.status(200).json({
-        status: 0,
+        status: 200,
         message: "Get Balance Berhasil",
         data: {
-          balance,
+          saldo: parseInt(saldo.saldo),
         },
       });
     } catch (err) {
@@ -51,17 +49,21 @@ class SaldoController {
           data: null,
         });
       }
-      await this.saldoService.topUp(userId, top_up_amount);
-      const saldo = await this.saldoService.getBalance(userId);
-      const balance = parseInt(saldo.balance);
 
-      return res.status(200).json({
-        status: 0,
-        message: "Top Up Balance berhasil",
-        data: {
-          top_up_amount: balance,
-        },
-      });
+      await this.saldoService.topUp(userId, top_up_amount);
+
+      const saldo = await this.saldoService.getBalance(userId);
+
+      if (saldo && saldo.saldo !== undefined) {
+        const balance = parseFloat(saldo.saldo);
+        return res.status(200).json({
+          status: 200,
+          message: "Top Up Balance Berhasil",
+          data: {
+            top_up_amount: balance,
+          },
+        });
+      }
     } catch (err) {
       console.log(err);
 

@@ -7,18 +7,11 @@ class SaldoService {
   async getBalance(id) {
     let saldo = await this.saldoRepository.get(id);
 
-    if (!saldo) {
-      saldo = await this.saldoRepository.create(id);
-    }
-
     return saldo;
   }
 
   async updateBalance(id, amount) {
     let saldo = await this.saldoRepository.get(id);
-    if (!saldo) {
-      saldo = await this.saldoRepository.create(id);
-    }
     if (amount <= 0) {
       throw new Error("Amount must be greater than 0.");
     }
@@ -31,11 +24,7 @@ class SaldoService {
     if (isNaN(amount) || amount <= 0) {
       throw new Error("Amount must be a positive number greater than 0");
     }
-    let saldo = await this.saldoRepository.get(id);
-
-    if (!saldo) {
-      saldo = await this.saldoRepository.create(id);
-    }
+    await this.saldoRepository.get(id);
 
     const updatedSaldo = await this.saldoRepository.topUp(id, amount);
     return updatedSaldo;

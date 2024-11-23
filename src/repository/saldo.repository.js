@@ -6,17 +6,7 @@ class SaldoRepository {
   }
 
   async get(id) {
-    const query = `SELECT balance FROM saldo WHERE user_id=$1`;
-    const result = await this.pool.query(query, [id]);
-    return result.rows[0];
-  }
-
-  async create(id) {
-    const query = `
-      INSERT INTO saldo (user_id, balance)
-      VALUES ($1, 0)
-      RETURNING *;
-    `;
+    const query = `SELECT saldo FROM users WHERE id=$1`;
     const result = await this.pool.query(query, [id]);
     return result.rows[0];
   }
@@ -26,19 +16,21 @@ class SaldoRepository {
     try {
       await client.query("BEGIN");
       const currentSaldo = await client.query(
-        "SELECT balance FROM saldo WHERE user_id=$1",
+        "SELECT saldo FROM users WHERE id=$1",
         [id],
       );
+
       if (!currentSaldo.rows[0]) {
         throw new Error("User saldo not found");
       }
-      const currentBalance = parseFloat(currentSaldo.rows[0].balance);
+
+      const currentBalance = parseFloat(currentSaldo.rows[0].saldo);
       const newBalance = currentBalance + parseFloat(amount);
 
       const updateSaldoQuery = `
-        UPDATE saldo
-        SET balance = $1
-        WHERE user_id = $2
+        UPDATE users
+        SET saldo = $1
+        WHERE id = $2
         RETURNING *;
       `;
       const updatedSaldo = await client.query(updateSaldoQuery, [
@@ -49,11 +41,9 @@ class SaldoRepository {
       await client.query("COMMIT");
       return updatedSaldo.rows[0];
     } catch (err) {
-      // If any error occurs, rollback the transaction
       await client.query("ROLLBACK");
       throw err;
     } finally {
-      // Release the client back to the pool
       client.release();
     }
   }
