@@ -11,7 +11,7 @@ router.get(
   async (req, res, next) => await saldoController.getBalance(req, res, next),
 );
 
-router.put(
+router.post(
   "/topup",
   auth,
   async (req, res, next) => await saldoController.topUp(req, res, next),
