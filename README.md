@@ -1,8 +1,8 @@
 # Project Javascript Using Clean Architecture
 
-ExpressJs, postgresql, raw-query, github
+Javascript, ExpressJs, postgresql, raw-query, github
 
-## Pattern Depencies Ijection
+## Pattern Dependency Ijection(DI)
 
 Config(Pool) > Repository > Service > Controller > router > app(server)
 
