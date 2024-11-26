@@ -31,7 +31,7 @@ router.put(
 router.put(
   "/profile/image",
   auth,
-  upload.single("profile_image"),
+  upload.single("file"),
   async (req, res, next) =>
     await userController.uploadProfileImage(req, res, next),
 );
