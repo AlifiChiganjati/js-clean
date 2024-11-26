@@ -41,7 +41,7 @@ class UserController {
       ) {
         return res.status(401).json({
           status: 401,
-          message: "Username atau password salah",
+          message: "email atau password salah",
           data: null,
         });
       }
