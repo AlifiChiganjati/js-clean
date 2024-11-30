@@ -8,7 +8,6 @@ class SaldoController {
   async getBalance(req, res, next) {
     try {
       const userId = req.user.id;
-      console.log(userId);
       let saldo = await this.saldoService.getBalance(userId);
       if (!saldo) {
         return res.status(404).json({
@@ -26,8 +25,6 @@ class SaldoController {
         },
       });
     } catch (err) {
-      console.error(err.message);
-
       return res.status(500).json({
         status: 500,
         message: err.message,

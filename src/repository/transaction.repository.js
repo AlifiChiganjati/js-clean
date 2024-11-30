@@ -24,9 +24,6 @@ class TransactionRepository {
       `;
       const resultBalance = await client.query(queryBalance, [userId]);
       const currentBalance = resultBalance.rows[0]?.saldo;
-      if (!currentBalance || currentBalance < service.service_tarif) {
-        throw new Error("Saldo tidak cukup");
-      }
 
       const newBalance = currentBalance - service.service_tarif;
       const queryUpdateBalance = `
